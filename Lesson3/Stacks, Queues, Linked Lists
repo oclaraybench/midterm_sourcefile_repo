@@ -1,0 +1,360 @@
+'use strict';
+
+console.log('CAMPUS IT SUPPORT REQUEST MANAGER');
+
+
+// PART A: STACK
+
+
+class Stack {
+    constructor() {
+        this.items = [];
+    }
+
+    push(element) {
+        this.items.push(element);
+    }
+
+    pop() {
+        return this.items.pop();
+    }
+
+    peek() {
+        return this.items[this.items.length - 1];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+
+    size() {
+        return this.items.length;
+    }
+
+    toString() {
+        return this.items.join(', ');
+    }
+}
+
+console.log('\nPART A: UNDO HISTORY');
+
+const aH = new Stack();
+
+aH.push('Opened Ticket #101');
+aH.push('Assigned Ticket #101');
+aH.push('Closed Ticket #101');
+
+console.log('Top Action: ' + aH.peek());
+
+let uA = aH.pop();
+
+console.log('Undo Action: ' + uA);
+console.log('Remaining Actions: ' + aH.toString());
+console.log('Stack Size: ' + aH.size());
+
+
+// PART B: QUEUE
+
+
+class Queue {
+    constructor() {
+        this.items = [];
+    }
+
+    enqueue(element) {
+        this.items.push(element);
+    }
+
+    dequeue() {
+        return this.items.shift();
+    }
+
+    front() {
+        return this.items[0];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+
+    size() {
+        return this.items.length;
+    }
+
+    toString() {
+        return this.items.join(', ');
+    }
+}
+
+console.log('\nPART B: WAITING REQUESTS');
+
+const wR = new Queue();
+
+wR.enqueue('Ticket #201 - Password Reset');
+wR.enqueue('Ticket #202 - No Internet');
+wR.enqueue('Ticket #203 - Printer Problem');
+wR.enqueue('Ticket #204 - Software Installation');
+
+console.log('Next Request: ' + wR.front());
+
+console.log('Processed: ' + wR.dequeue());
+console.log('Processed: ' + wR.dequeue());
+
+console.log('Remaining Requests: ' + wR.toString());
+console.log('Queue Size: ' + wR.size());
+
+
+// PART C: PRIORITY QUEUE
+
+
+class PriorityQueue {
+    constructor() {
+        this.items = [];
+    }
+
+    enqueue(request, priority) {
+        let item = {
+            request: request,
+            priority: priority
+        };
+
+        let pos = 0;
+
+        while (
+            pos < this.items.length &&
+            this.items[pos].priority <= priority
+        ) {
+            pos++;
+        }
+
+        this.items.splice(pos, 0, item);
+    }
+
+    dequeue() {
+        return this.items.shift();
+    }
+
+    size() {
+        return this.items.length;
+    }
+
+    print() {
+        for (let i = 0; i < this.items.length; i++) {
+            console.log(
+                this.items[i].request +
+                ', Priority ' +
+                this.items[i].priority
+            );
+        }
+    }
+}
+
+console.log('\nPART C: URGENT REQUESTS');
+
+const uR = new PriorityQueue();
+
+uR.enqueue('Ticket #301 - Install Browser', 3);
+uR.enqueue('Ticket #302 - Server Offline', 1);
+uR.enqueue('Ticket #303 - Faculty PC Failure', 2);
+uR.enqueue('Ticket #304 - Internet Laboratory Down', 1);
+
+console.log('Initial Priority Order:');
+
+uR.print();
+
+let pP = uR.dequeue();
+
+console.log(
+    'Processed Priority Request: ' +
+    pP.request +
+    ', Priority ' +
+    pP.priority
+);
+
+console.log('Remaining Priority Requests:');
+
+uR.print();
+
+
+// PART D: LINKED LIST
+
+
+class Node {
+    constructor(element) {
+        this.element = element;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null;
+        this.length = 0;
+    }
+
+    append(element) {
+        let node = new Node(element);
+
+        if (this.head === null) {
+            this.head = node;
+        } else {
+            let current = this.head;
+
+            while (current.next !== null) {
+                current = current.next;
+            }
+
+            current.next = node;
+        }
+
+        this.length++;
+    }
+
+    insert(position, element) {
+        if (position < 0 || position > this.length) {
+            return false;
+        }
+
+        let node = new Node(element);
+
+        if (position === 0) {
+            node.next = this.head;
+            this.head = node;
+        } else {
+            let current = this.head;
+
+            for (let i = 1; i < position; i++) {
+                current = current.next;
+            }
+
+            node.next = current.next;
+            current.next = node;
+        }
+
+        this.length++;
+
+        return true;
+    }
+
+    removeAt(position) {
+        if (position < 0 || position >= this.length) {
+            return null;
+        }
+
+        let current = this.head;
+
+        if (position === 0) {
+            this.head = current.next;
+        } else {
+            let previous = this.head;
+
+            for (let i = 1; i < position; i++) {
+                previous = previous.next;
+            }
+
+            current = previous.next;
+            previous.next = current.next;
+        }
+
+        this.length--;
+
+        return current.element;
+    }
+
+    indexOf(element) {
+        let current = this.head;
+        let index = 0;
+
+        while (current !== null) {
+            if (current.element === element) {
+                return index;
+            }
+
+            current = current.next;
+            index++;
+        }
+
+        return -1;
+    }
+
+    remove(element) {
+        let index = this.indexOf(element);
+
+        if (index !== -1) {
+            return this.removeAt(index);
+        }
+
+        return null;
+    }
+
+    isEmpty() {
+        return this.length === 0;
+    }
+
+    size() {
+        return this.length;
+    }
+
+    toString() {
+        let elements = [];
+        let current = this.head;
+
+        while (current !== null) {
+            elements.push(current.element);
+            current = current.next;
+        }
+
+        return elements.join(', ');
+    }
+}
+
+console.log('\nPART D: COMPLETED REQUESTS');
+
+const cR = new LinkedList();
+
+cR.append('Ticket #401 - Account Activated');
+cR.append('Ticket #402 - Printer Connected');
+cR.append('Ticket #403 - Antivirus Updated');
+
+cR.insert(
+    0,
+    'Ticket #400 - Computer Diagnosed'
+);
+
+cR.insert(
+    cR.size(),
+    'Ticket #405 - Browser Updated'
+);
+
+console.log('Complete List: ' + cR.toString());
+
+let tI = cR.indexOf(
+    'Ticket #402 - Printer Connected'
+);
+
+console.log('Index of Ticket #402: ' + tI);
+
+let rP = cR.removeAt(1);
+
+console.log('Removed at Position 1: ' + rP);
+
+let rT = cR.remove(
+    'Ticket #403 - Antivirus Updated'
+);
+
+console.log('Removed by Value: ' + rT);
+
+console.log('Final List: ' + cR.toString());
+console.log('Final Size: ' + cR.size());
+
+// ACRONYM LEGEND
+// aH = actionHistory
+// uA = undoAction
+// wR = waitingRequests
+// uR = urgentRequests
+// pP = processedPriority
+// cR = completedRequests
+// tI = ticketIndex
+// rP = removedPosition
+// rT = removedTicket
+// pos = position
