@@ -1,0 +1,91 @@
+Oclaray_Benjamin_BSITDA2-1_W4L1
+
+
+class Student {
+    constructor(name, scores) {
+        this.name = name;
+        this.scores = scores;
+    }
+
+    getAverage() {
+        let sum = 0;
+
+        for (let i = 0; i < this.scores.length; i++) {
+            sum += this.scores[i];
+        }
+
+        return sum / this.scores.length;
+    }
+
+    getLetterGrade() {
+        let avg = this.getAverage();
+
+        if (avg >= 90) {
+            return "A";
+        } else if (avg >= 80) {
+            return "B";
+        } else if (avg >= 70) {
+            return "C";
+        } else if (avg >= 60) {
+            return "D";
+        } else {
+            return "F";
+        }
+    }
+}
+
+function analyzeClass(students) {
+    console.log("------- STUDENT REPORT -------");
+
+    let ts = 0;
+    let tsn = null;
+    let tsa = -Infinity;
+
+    for (let i = 0; i < students.length; i++) {
+        let st = students[i];
+        let avg = st.getAverage();
+        let grd = st.getLetterGrade();
+
+        console.log(
+            `${st.name} - Average: ${avg.toFixed(1)} | Grade: ${grd}`
+        );
+
+        ts += avg;
+
+        if (avg > tsa) {
+            tsa = avg;
+            tsn = st.name;
+        }
+    }
+
+    let ca = ts / students.length;
+
+    console.log("-----------------------------------");
+    console.log(`Class Average: ${ca.toFixed(1)}`);
+    console.log(`Top Student: ${tsn} with ${tsa.toFixed(1)}`);
+}
+
+const sd = [
+    { name: "Lany", scores: [85, 90, 92] },
+    { name: "Bongbung", scores: [70, 75, 68] },
+    { name: "Dutherthe", scores: [95, 98, 92] },
+    { name: "Pico", scores: [55, 60, 58] }
+];
+
+const students = sd.map(function(data) {
+    return new Student(data.name, data.scores);
+});
+
+analyzeClass(students);
+
+//ts = total sum
+//tsn = top student name
+//tsa = top student average
+//st = student
+//avg = average
+//grd = grade
+//ca = class average
+//sd = student data
+
+// =(^..^)=
+
