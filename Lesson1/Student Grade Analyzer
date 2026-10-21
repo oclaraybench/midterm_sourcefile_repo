@@ -1,1 +1,66 @@
+//Oclaray, Benjamin III C.       BSIT DA 2-1     CC104_W3
+
+let g = [85, 72, 91, 64, 78];
+let r = "";
+let s = "";
+let t = 0;
+let a = 0;
+let h = g[0];
+let l = g[0];
+let p = 0;
+let f = 0;
+
+
+console.log("Student Scores: ");
+
+for (let i = 0; i < g.length; i++){
+    console.log(g[i]);
+}
+
+for (let i = 0; i < g.length; i++){
+
+if (g[i] >= 90){
+    r = "Excellent";
+    s = "Passed";
+    p++;
+}
+else if(g[i] >= 80){
+    r = "Very Good";
+    s = "Passed";
+    p++;
+}
+else if(g[i] >= 75){
+    r = "Good";
+    s = "Passed";
+    p++;
+}
+else {
+    r = "failed";
+    s = "";
+    f++;
+}
+
+console.log("Student" +  (i + 1) + ": " + g[i] + " - " + r + " - " + s)
+
+t += g[i];
+a = t / g.length;
+
+if (g[i] > h){
+    h = g[i];
+    }
+
+if (g[i] < l){
+    l = g[i];
+}
+}
+
+console.log("Total Grade: " + t);
+console.log("Avengers: " + a);
+console.log("Highest: " + h);
+console.log("Lowest: " + l);
+console.log("Passed: " + p);
+console.log("Failed: " + f);
+
+// =(^..^)=
+
 
